@@ -1,22 +1,22 @@
 var canvas, canvasContext;
 
-//ball variables
+//balle variables
 var ballX = 400;
 var ballSpeedX = 0;
 var ballY = 530;
 var ballSpeedY = 0;
 
-//paddle variables and constants
+//paddle variables et constantes
 const PADDLE_WIDTH = 100;
 const PADDLE_HEIGHT = 10;
 const PADDLE_DIST_FROM_EDGE = 60;
 var paddleX = 350;
 
-//mouse variables;
+//souris variables;
 var mouseX;
 var mouseY;
 
-//bricks variables and constants
+//bricks variables et constantes
 const BRICK_WIDTH = 80;
 const BRICK_HEIGHT = 20;
 const BRICK_COLS = 10;
@@ -40,12 +40,6 @@ function updateMousePosition(evt) {
   mouseY = evt.clientY - rect.top - root.scrollTop;
 
   paddleX = mouseX - (PADDLE_WIDTH/2);
-
-  //cheat to test the ball collision
-  //                ballX = mouseX;
-  //                ballY = mouseY;
-  //                ballSpeedX = 4;
-  //                ballSpeedY = -4;
 }
 
 function handleMouseClick(evt) {
@@ -98,25 +92,25 @@ function ballReset() {
 function ballMovement() {
   ballX += ballSpeedX;
 
-  //right
+  //droite
   if(ballX > canvas.width && ballSpeedX > 0.0) {
     ballSpeedX *= -1;
   }
 
-  //left
+  //gauche
   if(ballX < 0 && ballSpeedX < 0.0) {
     ballSpeedX *= -1;
   }
 
   ballY += ballSpeedY;
 
-  // bottom
+  // bas
   if(ballY > canvas.height) {
     playerAttempts--;
     ballReset();
   }
 
-  // top
+  // haut
   if(ballY < 0 && ballSpeedY < 0.0) {
     ballSpeedY *= -1;
   }
@@ -139,7 +133,7 @@ function ballBrickCollision() {
   if(ballBrickCol >= 0 && ballBrickCol < BRICK_COLS && ballBrickRow >= 0 && ballBrickRow < BRICK_ROWS) {
     if(isBrickAtColRow(ballBrickCol, ballBrickRow)) {
       brickGrid[brickIndexUnderBall] = false;
-      bricksLeft--; //remove brick from the amount
+      bricksLeft--; //brique qui se casse
       console.log(bricksLeft);
       playerScore += 10;
       console.log(playerScore);
@@ -165,7 +159,7 @@ function ballBrickCollision() {
         }
       }
 
-      if(bothTestsFailed) { //armpit case prevents the ball from going through when both corners are covered
+      if(bothTestsFailed) { 
         ballSpeedX *= -1;
         ballSpeedY *= -1;
       }
@@ -179,10 +173,10 @@ function ballPaddleCollision() {
   var paddleLeftEdgeX = paddleX;
   var paddleRightEdgeX = paddleLeftEdgeX + PADDLE_WIDTH;
 
-  if(ballY+10 > paddleTopEdgeY && //below the top of the paddle
-     ballY < paddleBottomEdgeY && //above the bottom of the paddle
-     ballX+10 > paddleLeftEdgeX && //right of the left side of the paddle
-     ballX-10 < paddleRightEdgeX) { //left of the right side of the paddle
+  if(ballY+10 > paddleTopEdgeY && 
+     ballY < paddleBottomEdgeY && 
+     ballX+10 > paddleLeftEdgeX && 
+     ballX-10 < paddleRightEdgeX) { 
 
     ballSpeedY *= -1;
 
@@ -191,7 +185,7 @@ function ballPaddleCollision() {
     ballSpeedX = ballDistFromPaddleCenterX * 0.35;
 
     if(bricksLeft == 0) {
-      //                        brickReset();
+      
       showEndingScreen = true;
     }
   }
@@ -221,14 +215,14 @@ function brickReset() {
   for(; i < BRICK_COLS * BRICK_ROWS; i++) {
     if(Math.random() < 0.5) {
       brickGrid[i] = true;
-      bricksLeft++;//counts how many bricks there are on the scene and stores the value
+      bricksLeft++;
       maximumScore += 10;
     }else {
       brickGrid[i] = false;
-    }//end of else (random check)
-  }//end of for
+    }
+  }
   console.log(maximumScore);
-}//end of brickReset
+}
 
 function rowColToArrayIndex(col, row) {
   return col + row * BRICK_COLS;
@@ -240,15 +234,15 @@ function drawBricks() {
       var arrayIndex = rowColToArrayIndex(eachCol, eachRow);
 
       if(brickGrid[arrayIndex]) {
-        rect((BRICK_WIDTH*eachCol), BRICK_HEIGHT*eachRow, BRICK_WIDTH-BRICK_GAP, BRICK_HEIGHT-BRICK_GAP, 'blue');
-      }//end of brick drawing if true
+        rect((BRICK_WIDTH*eachCol), BRICK_HEIGHT*eachRow, BRICK_WIDTH-BRICK_GAP, BRICK_HEIGHT-BRICK_GAP, 'white');
+      }
     }
-  }//end of brick for
-}//end of drawBricks
+  }
+}
 
 function drawAll() {
-  //background
-  rect(0, 0, canvas.width, canvas.height, 'black');
+  //fond
+  rect(0, 0, canvas.width, canvas.height, 'blue');
 
   if(showEndingScreen) {
     if(playerScore == maximumScore) {
@@ -257,7 +251,7 @@ function drawAll() {
       text("Vie: " + playerAttempts, canvas.width/2, 400, 'white', 'bold 2em Arial', 'center');
       text("Click to continuer", canvas.width/2, 550, 'white', 'bold 1.5em Arial', 'center');
     } else {
-      text("t'nul, ton niveau pues!", canvas.width/2, 100, 'white', 'bold 3em Arial', 'center');
+      text("t'claquer au sol, ton niveau pues!", canvas.width/2, 100, 'white', 'bold 3em Arial', 'center');
       text("Score: " + playerScore, canvas.width/2, 250, 'white', 'bold 2em Arial', 'center');
       text("Vie: " + playerAttempts, canvas.width/2, 400, 'white', 'bold 2em Arial', 'center');
       text("Click pour continuer", canvas.width/2, 550, 'white', 'bold 1.5em Arial', 'center');
@@ -265,20 +259,19 @@ function drawAll() {
     return;
   }
 
-  //ball
+  //balle
   circle(ballX, ballY, 10, 'yellow');
 
-  //paddle
+  //bar
   rect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_HEIGHT, 'white');
 
-  //bricks
+  //brique
   drawBricks();
 
   var mouseBrickCol = Math.floor(mouseX / BRICK_WIDTH);
   var mouseBrickRow = Math.floor(mouseY / BRICK_HEIGHT);
   var brickIndexUnderMouse = rowColToArrayIndex(mouseBrickCol, mouseBrickRow);
-  text(mouseBrickCol + "," + mouseBrickRow + ":" + brickIndexUnderMouse, mouseX, mouseY, 'yellow', '12px Arial');
-
+  
   text("Score: " + playerScore, 10, 30, 'white', 'bold 1.4em monospace', 'left');
   text("Vie: " + playerAttempts, 673, 30, 'white', 'bold 1.4em monospace', 'left');
 }

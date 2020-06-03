@@ -17,24 +17,43 @@
    
 <canvas id="gameCanvas" width="800" height="600"></canvas>
 <nav style="
+    left: 18<nav style=&quot;
     left: 200px;
     right: 460px;
     top: 25px;
+    padding-right: 25px;
+    width: 300px;
+&quot;>
+    <label for=&quot;btn&quot; class=&quot;button&quot;>menu echap
+      <span class=&quot;fas fa-caret-down&quot; aria-hidden=&quot;true&quot;></span>
+    </label>
+    <input type=&quot;checkbox&quot; id=&quot;btn&quot;>
+    <ul class=&quot;menu&quot;>
+<li><a href=&quot;index.html&quot;>menu principal</a></li>
+        <input type=&quot;checkbox&quot; id=&quot;btn-3&quot; <=&quot;&quot; li=&quot;&quot;>
+<li><a href=&quot;menu.html&quot;>recommencer</a></li>
+<li><a href=&quot;#&quot;>quitter</a></li>
+</ul>
+</nav>;
+    right: 460px;
+    top: 25px;
+    padding-right: 25px;
+    width: 200px;
+    left: 100px;
 ">
     <label for="btn" class="button">Menu Echap
-      <span class="fas fa-caret-down" aria-hidden="true"></span>
+      <span class="fas fa-caret-down rotate" aria-hidden="true"></span>
     </label>
     <input type="checkbox" id="btn">
     <ul class="menu">
 <li><a href="index.html">Menu principal</a></li>
-        <input type="checkbox" id="btn-3"
-</li>
+        <input type="checkbox" id="btn-3" <="" li="">
 <li><a href="menu.html">Recommencer</a></li>
 <li><a href="#">Quitter</a></li>
 </ul>
 </nav>
 
-  <!-- This code used to rotate drop icon(-180deg).. -->
+
   <script>
   $('nav .button').click(function(){
     $('nav .button span').toggleClass("rotate");
